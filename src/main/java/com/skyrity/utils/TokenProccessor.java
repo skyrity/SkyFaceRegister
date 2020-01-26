@@ -1,0 +1,49 @@
+package com.skyrity.utils;
+
+/**
+ * @author ： VULCAN
+ * @date ：2020/01/06 15:40
+ * @description : ${description}
+ * @path : com.skyrity.utils.TokenProcessor
+ * @modifiedBy ：
+ */
+
+import org.apache.log4j.Logger;
+import sun.misc.BASE64Encoder;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Random;
+
+/**
+ * 生成Token的工具类：
+ */
+
+public class TokenProccessor {
+    private static Logger logger = Logger.getLogger(TokenProccessor.class);
+    private TokenProccessor(){};
+    private static final TokenProccessor instance = new TokenProccessor();
+
+    public static TokenProccessor getInstance() {
+        return instance;
+    }
+
+    /**
+     * 生成Token
+     * @return
+     */
+    public String makeToken() {
+        String token = (System.currentTimeMillis() + new Random().nextInt(999999999)) + "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("md5");
+            byte md5[] =  md.digest(token.getBytes());
+            BASE64Encoder encoder = new BASE64Encoder();
+            return encoder.encode(md5);
+        } catch (NoSuchAlgorithmException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+}

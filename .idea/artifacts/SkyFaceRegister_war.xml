@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="SkyFaceRegister:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="SkyFaceRegister.war">
+      <element id="artifact" artifact-name="SkyFaceRegister:war exploded" />
+    </root>
+  </artifact>
+</component>

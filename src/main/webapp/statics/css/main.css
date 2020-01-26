@@ -1,0 +1,32 @@
+.main {
+    margin-bottom: 50px;
+}
+
+.padding-lr {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#logout:hover{
+    cursor:pointer;
+}
+
+
+td img{width: 40px; height: 40px;}
+
+.clsBlue{
+    color:blue;
+    font-weight: bold;
+}
+.clsBlack{
+    color:black;
+    font-weight: bold;
+}
+.clsGreen{
+    color:green;
+    font-weight: bold;
+}
+.clsRed{
+    color:red;
+    font-weight: bold;
+}
