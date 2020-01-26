@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author ： macai
+ * @author ： macai@skyrity.com
  * @date ：2020/01/05 21:01
  * @description : ${description}
  * @path : com.skyrity.service.WebService
