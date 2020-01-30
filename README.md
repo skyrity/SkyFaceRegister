@@ -75,7 +75,7 @@ Data:{
 ```
 
 
-![wxLogin](D:\Java\IntelliJDemo\Maven\SkyFaceRegister\src\main\doc\images\wxLogin.png)
+![wxLogin](https://raw.githubusercontent.com/skyrity/SkyFaceRegister/master/src/main/doc/images/wxLogin.png)
 
 ### 3.2 微信小程序人脸信息提交接口规范
 
@@ -120,7 +120,7 @@ Data:{
 ```
 
 
-![register](D:\Java\IntelliJDemo\Maven\SkyFaceRegister\src\main\doc\images\register.png)
+![register](https://raw.githubusercontent.com/skyrity/SkyFaceRegister/master/src/main/doc/images/register.png)
 
 
 
@@ -160,7 +160,7 @@ Data:{
 
 ```
 
-![login](D:\Java\IntelliJDemo\Maven\SkyFaceRegister\src\main\doc\images\login.png)
+![login](https://raw.githubusercontent.com/skyrity/SkyFaceRegister/master/src/main/doc/images/login.png)
 
 
 
@@ -234,7 +234,7 @@ Data:{
 
 
 
-![getfaces](D:\Java\IntelliJDemo\Maven\SkyFaceRegister\src\main\doc\images\getfaces.png)
+![getfaces](https://raw.githubusercontent.com/skyrity/SkyFaceRegister/master/src/main/doc/images/getfaces.png)
 
 ### 3.5 注册信息审核提交接口规范
 
@@ -272,7 +272,7 @@ Data:{
 ```
 
 
-![approve](D:\Java\IntelliJDemo\Maven\SkyFaceRegister\src\main\doc\images\approve.png)
+![approve](https://raw.githubusercontent.com/skyrity/SkyFaceRegister/master/src/main/doc/images/approve.png)
 
 ### 3.6 小程序注销服务器接口规范
 
@@ -313,13 +313,13 @@ Data:{
 “result_data”: {}
 }
 ```
-![editpassword](D:\Java\IntelliJDemo\Maven\SkyFaceRegister\src\main\doc\images\editpassword.png)
+![editpassword](https://raw.githubusercontent.com/skyrity/SkyFaceRegister/master/src/main/doc/images/editpassword.png)
 
 
 
 ## 四、逻辑访问流程图示
 
-![流程图](D:\Java\IntelliJDemo\Maven\SkyFaceRegister\src\main\doc\images\flow.png)
+![流程图](https://raw.githubusercontent.com/skyrity/SkyFaceRegister/master/src/main/doc/images/flow.png)
 
 ## 五、云服务器反馈code信息说明
 
