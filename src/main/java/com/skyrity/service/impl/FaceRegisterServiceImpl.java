@@ -65,7 +65,7 @@ public class FaceRegisterServiceImpl implements FaceRegisterService{
     }
 
 
-    private Pager<Face_Register> getPager(String in_Where, int pageIndex, int pageSize) {
+    public Pager<Face_Register> getPager(String in_Where, int pageIndex, int pageSize) {
         Map<String,String> params=new HashMap<String, String>(3);
         params.put("out_PageCount", null);
         params.put("out_ResultCount", null);

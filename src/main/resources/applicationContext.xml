@@ -32,8 +32,8 @@
         <property name="jdbcUrl" value="jdbc:sqlserver://127.0.0.1:1433;databaseName=SkyRegisterFace" />
         <property name="user" value="sa" />
 
-        <!--<property name="password" value="!Sky2004aaaaaa!"/>  &lt;!&ndash; $Sky2010aaaaaa$   &ndash;&gt;-->
-        <property name="password" value="$Sky2010aaaaaa$"/>  <!-- $Sky2010aaaaaa$   -->
+        <property name="password" value="!Sky2004aaaaaa!"/>  <!-- $Sky2010aaaaaa$   -->
+        <!--<property name="password" value="$Sky2010aaaaaa$"/>  &lt;!&ndash; $Sky2010aaaaaa$   &ndash;&gt;-->
         <!-- c3p0连接池的私有属性 -->
         <property name="maxPoolSize" value="30" />
         <property name="minPoolSize" value="10" />

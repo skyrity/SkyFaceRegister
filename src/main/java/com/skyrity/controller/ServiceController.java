@@ -158,10 +158,10 @@ public class ServiceController {
 
         if(session_key==null && accessToken==null){
            ComUtil.printWrite(response,ComUtil.getResultTime(RetCode.RET_ERROR_LOGIN)); //未登录
-        }else if(session_key!=null && session_key.equals(accessToken)) {
+        }else if(session_key!=null && session_key.equals(accessToken)) { // PC端登录
             ComUtil.printWrite(response, webService.getfaces(request,state,fields,pageNum,pageSize));
-        }else if(token!=null && token.equals(accessToken)){
-            ComUtil.printWrite(response, webService.getfaces(request,state,fields,pageNum,pageSize));
+        }else if(token!=null && token.equals(accessToken)){ //微信端登陆
+            ComUtil.printWrite(response, wxService.getfaces(request,state,fields,pageNum,pageSize));
         }else{
             ComUtil.printWrite(response,ComUtil.getResultTime(RetCode.RET_ERROR_PARAMS)); //参数错误
         }

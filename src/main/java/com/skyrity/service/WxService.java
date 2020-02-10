@@ -19,6 +19,6 @@ public interface WxService {
 
     String login(HttpServletRequest request) throws Base64DecodingException;
 
-
+    public String getfaces(HttpServletRequest request,int state,String fields,int pageNum,int pageSize);
     //String wxRegister(HttpServletRequest request) throws FileUploadException, UnsupportedEncodingException;
 }

@@ -22,4 +22,6 @@ public interface FaceRegisterService {
     Face_Register getByTelephone(String teFieldslNo);
 
     long approve(int id,int state);
+
+    Pager<Face_Register> getPager(String in_Where, int pageIndex, int pageSize);
 }

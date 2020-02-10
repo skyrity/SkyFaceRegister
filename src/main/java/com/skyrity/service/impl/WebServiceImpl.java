@@ -3,7 +3,6 @@ package com.skyrity.service.impl;
 import com.skyrity.bean.Face_Register;
 import com.skyrity.bean.Face_System;
 import com.skyrity.bean.Pager;
-import com.skyrity.dao.FaceSystemDao;
 import com.skyrity.service.FaceRegisterService;
 import com.skyrity.service.FaceSystemService;
 import com.skyrity.utils.ComUtil;
@@ -26,15 +25,14 @@ import java.util.*;
  * @date ：2020/01/05 21:01
  * @description : ${description}
  * @path : com.skyrity.service.impl.WebServiceImpl
- * @modifiedBy ：
  */
 @Service("WebService")
 public class WebServiceImpl implements com.skyrity.service.WebService{
     private static Logger logger = Logger.getLogger(WebServiceImpl.class);
     @Autowired
-    FaceRegisterService faceRegisterService;
+    private FaceRegisterService faceRegisterService;
     @Autowired
-    FaceSystemService faceSystemService;
+    private FaceSystemService faceSystemService;
     @Override
     public String login(HttpServletRequest request,String userName,String password) throws Base64DecodingException {
         String retStr;
@@ -70,9 +68,24 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
     @Override
     public String getfaces(HttpServletRequest request,int state,String fields,int pageNum,int pageSize) {
         String retStr;
+        String field1;
+        StringBuilder in_Where=new StringBuilder("");
+        if(fields!=null && !"".equals(fields)){
+            field1="(name like '%"+fields+"%' or telNo like '%"+fields+"%') ";
+            in_Where.append(field1);
+        }
 
+        if(state!=Face_Register.VALUE_ALL){
+            if (in_Where.length()==0) {
+                field1="state=" + state;
+            }else{
+                field1="and state=" + state;
+
+            }
+            in_Where.append(field1);
+        }
         //3.查询数据库
-        Pager<Face_Register> pager=faceRegisterService.getFields(state,fields,pageNum,pageSize);
+        Pager<Face_Register> pager=faceRegisterService.getPager(in_Where.toString(),pageNum,pageSize);
 
         JSONObject jsonData= JSONObject.fromObject(pager);
         request.setAttribute("pager",pager);
@@ -81,6 +94,7 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
         logger.info(retStr);
         return retStr;
     }
+
 
     @Override
     public String approve(HttpServletRequest request,String ids,int isPass) {
@@ -97,11 +111,11 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
            state=Face_Register.VALUE_HANDLE;//已处理
         }
         long ret;
-        for(int i=0;i<sId.length;i++) {
-            int id=Integer.parseInt(sId[i]);
+        for (String aSId : sId) {
+            int id = Integer.parseInt(aSId);
             ret = faceRegisterService.approve(id, state);
-            if(ret<=0){
-                retStr= ComUtil.getResultTime(RetCode.RET_ERROR_APPROVE);
+            if (ret <= 0) {
+                retStr = ComUtil.getResultTime(RetCode.RET_ERROR_APPROVE);
                 logger.info(retStr);
                 return retStr;
             }
@@ -162,7 +176,7 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
         faceRegister.setTelNo(telNo);
         faceRegister.setApplyTime(new Date());
         String sCardNo=telNo.substring(2);
-        long cardNo=0;
+        long cardNo;
         try {
             cardNo = Integer.parseInt(sCardNo);
         }catch (Exception e){
@@ -207,10 +221,7 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
     public boolean checkUser(String userName, String password) {
         Face_System faceSystem=faceSystemService.getSystem();
         String passwordMd5= MD5Util.stringToMD5(password);
-        if(userName.equals(faceSystem.getUserName()) && passwordMd5.equals(faceSystem.getPassword())){
-            return true;
-        }
-        return false;
+        return userName.equals(faceSystem.getUserName()) && passwordMd5.equals(faceSystem.getPassword());
     }
 
 
