@@ -1,8 +1,10 @@
 package com.skyrity.service.impl;
 
+import com.skyrity.bean.Face_Project;
 import com.skyrity.bean.Face_Register;
 import com.skyrity.bean.Face_System;
 import com.skyrity.bean.Pager;
+import com.skyrity.service.FaceProjectService;
 import com.skyrity.service.FaceRegisterService;
 import com.skyrity.service.FaceSystemService;
 import com.skyrity.utils.ComUtil;
@@ -33,6 +35,11 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
     private FaceRegisterService faceRegisterService;
     @Autowired
     private FaceSystemService faceSystemService;
+    @Autowired
+    private FaceProjectService faceProjectService;
+
+    private final int SKYPROJECT=1;
+
     @Override
     public String login(HttpServletRequest request,String userName,String password) throws Base64DecodingException {
         String retStr;
@@ -46,6 +53,7 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
        String accessToken=TokenProccessor.getInstance().makeToken();
        request.getSession().setAttribute("accessToken",accessToken);
        request.getSession().setAttribute("userName",userName);
+       request.getSession().setAttribute("projectId",SKYPROJECT);
        request.getSession().setMaxInactiveInterval(3600);
 
        retStr= RetCode.RET_SUCCESS.replace("RESULT_DATA","{\"accessToken\":\""+accessToken+"\"}").
@@ -77,14 +85,15 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
 
         if(state!=Face_Register.VALUE_ALL){
             if (in_Where.length()==0) {
-                field1="state=" + state;
+                field1=" state=" + state;
             }else{
-                field1="and state=" + state;
+                field1=" and state=" + state;
 
             }
             in_Where.append(field1);
         }
         //3.查询数据库
+        logger.info("getfaces(PC):in_Where="+in_Where);
         Pager<Face_Register> pager=faceRegisterService.getPager(in_Where.toString(),pageNum,pageSize);
 
         JSONObject jsonData= JSONObject.fromObject(pager);
@@ -133,12 +142,20 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
         String name = request.getParameter("name");//用户名
         String telNo = request.getParameter("telNo");//用户手机号
         String openId=(String) request.getSession().getAttribute("openId");
+        int projectId=(int) request.getSession().getAttribute("projectId");
 
         if(openId==null){
             openId="pclogin";
         }
+        //3.检查该用户是否已经存在
+        Face_Register faceRegister =faceRegisterService.getByTelephone(telNo);
+        if(faceRegister!=null){
+            retStr= ComUtil.getResultTime(RetCode.RET_ERROR_REGISTERED);
+            logger.info(retStr);
+            return retStr;
+        }
 
-        //3.保存文件
+        //4.保存文件
         String storePath =request.getServletContext().getRealPath("/") + "upload";
         Random r = new Random();
         String fileName= name +"_" +telNo+ "_" + r.nextInt(1000) + ".jpg";
@@ -160,13 +177,6 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
         String imgUrl =request.getScheme()+"://" +request.getServerName()+":" +request.getServerPort()+
                 request.getContextPath()+"/upload/"+fileName;
 
-        //4.检查该用户是否已经存在
-        Face_Register faceRegister =faceRegisterService.getByTelephone(telNo);
-        if(faceRegister!=null){
-            retStr= ComUtil.getResultTime(RetCode.RET_ERROR_REGISTERED);
-            logger.info(retStr);
-            return retStr;
-        }
         //5.保存数据库，增加人脸注册记录
         Face_System faceSystem=getSystem();
         faceRegister=new Face_Register();
@@ -174,6 +184,7 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
         faceRegister.setImgUrl(imgUrl);
         faceRegister.setOpenId(openId);
         faceRegister.setTelNo(telNo);
+        faceRegister.setProjectId(projectId);
         faceRegister.setApplyTime(new Date());
         String sCardNo=telNo.substring(2);
         long cardNo;
@@ -218,12 +229,49 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
     }
 
     @Override
+    public long editProjectPass(HttpServletRequest request, int projectId,String password) {
+        return faceProjectService.editProjectPass(projectId,password);
+    }
+
+    @Override
+    public String pcLogin(HttpServletRequest request, String projectNo, String password) throws Base64DecodingException {
+        String retStr;
+
+        //2.检查用户
+        if(!checkProjectUser(projectNo,password)){
+            retStr= ComUtil.getResultTime(RetCode.RET_ERROR_PROJECT_ACCOUNT);
+            logger.info(retStr);
+            return retStr;
+        }
+        Face_Project faceProject=faceProjectService.getByProjectNo(projectNo);
+        String accessToken=TokenProccessor.getInstance().makeToken();
+        request.getSession().setAttribute("accessToken",accessToken);
+        request.getSession().setAttribute("projectId",faceProject.getId());
+        request.getSession().setMaxInactiveInterval(3600);
+
+        retStr= RetCode.RET_SUCCESS.replace("RESULT_DATA","{\"accessToken\":\""+accessToken+"\"}").
+                replace("RESULT_TIME",Long.toString(new Date().getTime()));
+        logger.info(retStr);
+        return retStr;
+    }
+
+    @Override
     public boolean checkUser(String userName, String password) {
         Face_System faceSystem=faceSystemService.getSystem();
         String passwordMd5= MD5Util.stringToMD5(password);
         return userName.equals(faceSystem.getUserName()) && passwordMd5.equals(faceSystem.getPassword());
     }
 
+    @Override
+    public boolean checkProjectUser(String projectNo, String password) {
+        Face_Project faceProject=faceProjectService.getByProjectNo(projectNo);
+        String passwordMd5= MD5Util.stringToMD5(password);
+        return projectNo.equals(faceProject.getProjectNo()) && passwordMd5.equals(faceProject.getPassword());
+    }
 
+    @Override
+    public Face_Project getProjectById(int projectId) {
+        return faceProjectService.getById(projectId);
+    }
 
 }

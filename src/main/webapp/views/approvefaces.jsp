@@ -12,7 +12,7 @@
     String accessToken= (String) session.getAttribute("accessToken");
     if(accessToken==null ){
         String basePath=((HttpServletRequest) request).getContextPath();
-        request.getRequestDispatcher(basePath+"/veiws/login.jsp").forward(request, response);
+        request.getRequestDispatcher("login.jsp").forward(request, response);
         return;
     }
 %>

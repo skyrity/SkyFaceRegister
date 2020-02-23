@@ -14,5 +14,7 @@ public class RetCode {
 	public static final String RET_ERROR_APPROVE = "{\"result_code\":-9,\"result_msg\":用户审核失败！\"\",\"result_time\":RESULT_TIME}";
 	public static final String RET_ERROR_EDITPASSWORD = "{\"result_code\":-10,\"result_msg\":修改密码失败！\"\",\"result_time\":RESULT_TIME}";
 	public static final String RET_ERROR_OLDPASSWORD = "{\"result_code\":-11,\"result_msg\":旧密码不符，修改密码失败！\"\",\"result_time\":RESULT_TIME}";
+	public static final String RET_ERROR_PROJECT_ACCOUNT = "{\"result_code\":-12,\"result_msg\":\"项目账号验证错误\",\"result_time\":RESULT_TIME}";
+	public static final String RET_ERROR_PROJECTNO = "{\"result_code\":-13,\"result_msg\":\"项目不存在\",\"result_time\":RESULT_TIME}";
 
 }

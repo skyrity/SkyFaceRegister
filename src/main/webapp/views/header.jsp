@@ -26,10 +26,10 @@
                     <a class="dropdown-toggle" data-toggle="dropdown">人脸管理 <span class="caret"></span> </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="approvefaces.jsp" target="_blank">待审核信息</a>
+                            <a href="approvefaces.jsp" >待审核信息</a>
                         </li>
                         <li>
-                            <a href="getfaces.jsp" target="_blank">注册信息</a>
+                            <a href="getfaces.jsp" >注册信息</a>
                         </li>
                     </ul>
                 </li>

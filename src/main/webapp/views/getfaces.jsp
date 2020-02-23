@@ -110,7 +110,7 @@
 <script src="../statics/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 <script src="../statics/js/header.js?id=1"></script>
 <script src="../statics/js/utils.js?id=1"> </script>
-<script src="../statics/js/getfaces.js?id=1" ></script>
+<script src="../statics/js/getfaces.js?id=2" ></script>
 
 </body>
 </html>

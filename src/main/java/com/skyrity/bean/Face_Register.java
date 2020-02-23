@@ -24,6 +24,7 @@ public class Face_Register {
     int state; //状态
     String imgUrl;//申请状态：0-未处理；1-已审核；2-已处理；3-审核不通过；-1-全部获取
     long cardNo;//卡号
+    int projectId;//项目
 
     @Override
     public String toString() {
@@ -32,11 +33,20 @@ public class Face_Register {
                 ", name='" + name + '\'' +
                 ", openId='" + openId + '\'' +
                 ", telNo='" + telNo + '\'' +
-                ", applyTTime=" + applyTime +
+                ", applyTime=" + applyTime +
                 ", state=" + state +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", cardNo=" + cardNo +
+                ", projectId=" + projectId +
                 '}';
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
     }
 
     public long getId() {

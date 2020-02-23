@@ -23,8 +23,8 @@
                         <option value="-1">所有</option>
                         <option value="0">待审核</option>
                         <option value="1">已审核</option>
-                        <option value="2">拒绝</option>
-                        <option value="3">已处理</option>
+                        <option value="2">已处理</option>
+                        <option value="3">拒绝</option>
                     </select>
                 </div>
 

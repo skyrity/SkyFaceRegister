@@ -2,7 +2,15 @@
  * Created by macai on 2020-1-14.
  */
 $(function() {
+    // 设定屏幕回车键默认时间
+    $(document).keydown(function (event) {
+        var code = event.keyCode;
+        if(code ==13){ //这是键盘的enter监听事件
+            $("#btnsearch").click()
+            event.preventDefault();
 
+        }
+    })
     //点击页号事件
     $("#select_pageSize").change(function() {
         loadTable({
