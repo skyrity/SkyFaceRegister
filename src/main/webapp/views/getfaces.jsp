@@ -34,6 +34,7 @@
     <script>
         var $accessToken="<%=accessToken%>"
     </script>
+
 </head>
 <body>
 
@@ -103,6 +104,23 @@
 
 <!--引入网页尾部 -->
 <jsp:include page="footer.jsp"/>
+
+<!--预览对话框-->
+<div id="previewModal" class="modal fade" tabindex="-1" role="dialog" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">图片预览</h4>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <img src="" style="width: 100%"/>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 <script src="../statics/js/jquery.min.js" > </script>
 <script src="../statics/bootstrap-3.3.7-dist/js/bootstrap.min.js" ></script>

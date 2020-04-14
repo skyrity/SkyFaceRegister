@@ -141,19 +141,14 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
         String retStr;
         String name = request.getParameter("name");//用户名
         String telNo = request.getParameter("telNo");//用户手机号
+        String sCardId = request.getParameter("cardId");//卡号
         String openId=(String) request.getSession().getAttribute("openId");
         int projectId=(int) request.getSession().getAttribute("projectId");
 
         if(openId==null){
             openId="pclogin";
         }
-        //3.检查该用户是否已经存在
-        Face_Register faceRegister =faceRegisterService.getByTelephone(telNo);
-        if(faceRegister!=null){
-            retStr= ComUtil.getResultTime(RetCode.RET_ERROR_REGISTERED);
-            logger.info(retStr);
-            return retStr;
-        }
+
 
         //4.保存文件
         String storePath =request.getServletContext().getRealPath("/") + "upload";
@@ -177,34 +172,47 @@ public class WebServiceImpl implements com.skyrity.service.WebService{
         String imgUrl =request.getScheme()+"://" +request.getServerName()+":" +request.getServerPort()+
                 request.getContextPath()+"/upload/"+fileName;
 
+        if(sCardId==null || "".equals(sCardId)){
+            sCardId=telNo.substring(2);
+        }
+        int cardId=-3;
+        try{
+            cardId=Integer.parseInt(sCardId);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            retStr= ComUtil.getResultTime(RetCode.RET_ERROR_PARAMS);
+            logger.info(retStr);
+            return retStr;
+        }
         //5.保存数据库，增加人脸注册记录
+
         Face_System faceSystem=getSystem();
-        faceRegister=new Face_Register();
+
+        Face_Register faceRegister=new Face_Register();
         faceRegister.setName(name);
         faceRegister.setImgUrl(imgUrl);
         faceRegister.setOpenId(openId);
         faceRegister.setTelNo(telNo);
+        faceRegister.setCardNo(cardId);
         faceRegister.setProjectId(projectId);
         faceRegister.setApplyTime(new Date());
-        String sCardNo=telNo.substring(2);
-        long cardNo;
-        try {
-            cardNo = Integer.parseInt(sCardNo);
-        }catch (Exception e){
-            e.printStackTrace();
-            logger.error(e.getMessage());
-            retStr= ComUtil.getResultTime(RetCode.RET_ERROR_EXCEPTION);
-            logger.info(retStr);
-            return retStr;
-        }
-        faceRegister.setCardNo(cardNo);
+        faceRegister.setCardNo(cardId);
         if(faceSystem.getState()==Face_System.STATE_NOAPPROVE) { //不审核
             faceRegister.setState(Face_Register.VALUE_PASS);
         }else{
             faceRegister.setState(Face_Register.VALUE_UNCONFIRMED);
         }
+        //检查该用户是否已经存在
+        long ret;
+        Face_Register faceRegister1 =faceRegisterService.getByTelephone(telNo);
+        if(faceRegister1!=null){
+            faceRegister.setId(faceRegister1.getId());
+            ret=faceRegisterService.edit(faceRegister);
+        }else{
+            ret=faceRegisterService.add(faceRegister);
+        }
 
-        long ret=faceRegisterService.add(faceRegister);
         if(ret>0) {
             retStr= RetCode.RET_SUCCESS.replace("RESULT_DATA", "{\"imgUrl\":\"" + imgUrl+"\"}").
                     replace("RESULT_TIME", Long.toString(new Date().getTime()));

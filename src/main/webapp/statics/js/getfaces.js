@@ -42,6 +42,13 @@ $(function() {
         pageSize: $("#select_pageSize").val()
     })
 
+
+    $('#previewModal').on('show.bs.modal', function () {
+        // do something...
+        var modal = $(this)
+        modal.find('.modal-body img').attr("src",modal.data().src)
+    })
+
 })
 
 
@@ -100,7 +107,7 @@ function handler_getfaces(data) {
 
             $("<tr> " +
                 "<td>" + record.id + "</td>" +
-                "<td> <img src='" + record.imgUrl  + "'></td>" +
+                "<td> <img src='" + record.imgUrl  + "' data-toggle='modal' data-target='#previewModal' onmouseenter='showPreviewModal(this)'></td>" +
                 "<td>" + record.name + "</td>" +
                 "<td>" + record.telNo + "</td>" +
                 "<td>" + new Date(record.applyTime.time).format("yyyy-MM-dd")  + "</td>" +
@@ -155,3 +162,26 @@ function hanlder_paginator(data) {
     }
 
 }
+
+function showPreviewModal(img) {
+    $('#previewModal').data('src',img.src)
+    $('#previewModal').modal({
+        show:true,
+    })
+
+
+
+}
+//
+// function hidePreviewModal() {
+//     $('#previewModal').modal('hide')
+// }
+
+
+// $('#previewModal').on('show.bs.modal', function (e) {
+//     // do something...
+//     console.log(e)
+//     var img = e.relatedTarget
+//     var modal = $(this)
+//     modal.find('.modal-body img').attr("src",img.src)
+// })

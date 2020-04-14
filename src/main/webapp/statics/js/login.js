@@ -53,7 +53,7 @@ function login() {
 
             } else {
                 $("#error").removeAttr("hidden").html(data.result_msg);
-                fromValidator("#loginform");
+                //fromValidator("#loginform");
             }
 
 
@@ -62,7 +62,7 @@ function login() {
         error: function (XMLHttpRequest, textStatus, errorThrown) {
 
             $("#error").removeAttr("hidden").html("没有发现请求！");
-            fromValidator("#loginform");
+            //fromValidator("#loginform");
         }
 
 
@@ -84,6 +84,7 @@ $(function () {
 
     fromValidator("#loginform");
     $("#loginform button").on("click", function () {
+        fromValidator("#loginform");
         // 手动触发验证
         var bootstrapValidator = $("#loginform").data("bootstrapValidator").validate();
         if (bootstrapValidator.isValid()) {

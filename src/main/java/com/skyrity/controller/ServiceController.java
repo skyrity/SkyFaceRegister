@@ -40,7 +40,12 @@ public class ServiceController {
     @RequestMapping("wxLogin.do")
     public void wxlogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
         logger.info("表现层，wxlogin...");
-        ComUtil.printWrite(response,wxService.login(request));
+        String code=request.getParameter("code");
+        String iv=request.getParameter("iv");
+        String projectNo=request.getParameter("projectNo");
+        logger.info("wxlogin:code={},iv={},projectNo={}",code,iv,projectNo );
+        String retStr=wxService.login(request);
+        ComUtil.printWrite(response,retStr);
     }
 
     @RequestMapping("login.do")
@@ -120,6 +125,7 @@ public class ServiceController {
         String accessToken = request.getParameter("accessToken");//访问令牌
         String name = request.getParameter("name");//用户名
         String telNo = request.getParameter("telNo");//用户手机号
+        String sCardId = request.getParameter("cardId");//卡号
         logger.info("register:accessToken={},name={},telNo={}",accessToken,name,telNo);
 
         String session_key= (String) request.getSession().getAttribute("session_key");
@@ -132,6 +138,21 @@ public class ServiceController {
             ComUtil.printWrite(response,retStr);
             return;
         }
+
+        if(sCardId==null || "".equals(sCardId)){
+            sCardId=telNo.substring(2);
+        }
+
+        int cardId=-3;
+        try{
+            cardId=Integer.parseInt(sCardId);
+        }catch (Exception e){
+            retStr= ComUtil.getResultTime(RetCode.RET_ERROR_PARAMS);
+            ComUtil.printWrite(response,retStr);
+            return;
+        }
+
+
         //2.检查令牌
         if(token==null && session_key==null){
             retStr=  ComUtil.getResultTime(RetCode.RET_ERROR_LOGIN); //未登录

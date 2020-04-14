@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Param;
 public interface FaceRegisterService {
 
     long add(Face_Register faceRegister);
+    long edit(Face_Register faceRegister);
 
     Pager<Face_Register> getAll(int pageIndex,int pageSize);
 

@@ -30,6 +30,11 @@ public class FaceRegisterServiceImpl implements FaceRegisterService{
     }
 
     @Override
+    public long edit(Face_Register faceRegister) {
+        return faceRegisterDao.edit(faceRegister);
+    }
+
+    @Override
     public Pager<Face_Register> getAll(int pageIndex,int pageSize) {
         String in_Where="";
         return getPager(in_Where,pageIndex,pageSize);
