@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 public class FaceSystemServiceImpl implements FaceSystemService {
 
     @Autowired
+    private
     FaceSystemDao faceSystemDao;
 
     @Override

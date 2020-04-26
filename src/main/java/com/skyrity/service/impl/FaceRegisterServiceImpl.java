@@ -22,6 +22,7 @@ import java.util.Map;
 public class FaceRegisterServiceImpl implements FaceRegisterService{
 
     @Autowired
+    private
     FaceRegisterDao faceRegisterDao;
 
     @Override
@@ -79,7 +80,7 @@ public class FaceRegisterServiceImpl implements FaceRegisterService{
         params.put("in_Key", "id");
         params.put("in_Fields", "*");
         params.put("in_Where", in_Where);
-        params.put("in_Order", "id desc");
+        params.put("in_Order", "applyTime desc");
         params.put("in_Begin", "0");
         params.put("in_PageIndex", ""+pageIndex);
         params.put("in_PageSize", ""+pageSize);

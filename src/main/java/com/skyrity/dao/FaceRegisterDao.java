@@ -46,9 +46,9 @@ public interface FaceRegisterDao {
             "#{faceRegister.imgUrl},#{faceRegister.cardNo})")
     long add(@Param("faceRegister") Face_Register faceRegister);
 
-    @Update("Update Face_Register Set name=#{faceRegister.name},openId=#{faceRegister.openId},applyTime=getDate()，state=#{faceRegister.state}, " +
+    @Update("Update Face_Register Set name=#{faceRegister.name},openId=#{faceRegister.openId},applyTime=getDate(),state=#{faceRegister.state}, " +
             "imgUrl=#{faceRegister.imgUrl},cardNo=#{faceRegister.cardNo} " +
-            " where faceRegister.id=#{faceRegister.id}")
+            " where id=#{faceRegister.id}")
     long edit(@Param("faceRegister") Face_Register faceRegister);
     /**
      * 修改注册状态
